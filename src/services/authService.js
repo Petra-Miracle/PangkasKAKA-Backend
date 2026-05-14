@@ -6,29 +6,50 @@ class AuthService {
   async register(userData) {
     const { name, email, password, phone, role } = userData;
 
-    // Check if user exists in any table
-    const existingUser = await prisma.user.findFirst({
-      where: { OR: [{ email }, { phone }] }
-    });
+    // 1. Basic Validation
+    if (!name || !email || !password || !phone) {
+      throw new Error('Name, email, password, and phone are required');
+    }
 
-    if (existingUser) {
+    // 2. Check if user exists in ANY table (users, owners, or karyawan)
+    const [userExists, ownerExists, karyawanExists] = await Promise.all([
+      prisma.user.findFirst({ where: { OR: [{ email }, { phone }] } }),
+      prisma.owner.findFirst({ where: { OR: [{ email }, { phone }] } }),
+      prisma.karyawan.findFirst({ where: { OR: [{ email }, { phone }] } })
+    ]);
+
+    if (userExists || ownerExists || karyawanExists) {
       throw new Error('User with this email or phone already exists');
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user in the main 'users' table
-    const user = await prisma.user.create({
-      data: {
-        name,
-        email,
-        phone,
-        password: hashedPassword,
-        role: role || 'customer'
-      }
-    });
+    // 3. Register based on role (default is customer/user)
+    let newUser;
+    const userRole = role || 'customer';
 
-    return this.generateAuthResponse(user);
+    if (userRole === 'owner') {
+      newUser = await prisma.owner.create({
+        data: { name, email, phone, password: hashedPassword }
+      });
+    } else if (userRole === 'barber') {
+      newUser = await prisma.karyawan.create({
+        data: { name, email, phone, password: hashedPassword, status: 'pending' }
+      });
+    } else {
+      // Default to regular User
+      newUser = await prisma.user.create({
+        data: {
+          name,
+          email,
+          phone,
+          password: hashedPassword,
+          role: 'customer'
+        }
+      });
+    }
+
+    return this.generateAuthResponse(newUser, userRole);
   }
 
   async login(email, password) {
@@ -72,6 +93,40 @@ class AuthService {
       user: { ...userWithoutPassword, role: role || user.role },
       token
     };
+  }
+
+  async updateProfile(userId, updateData) {
+    const { name, phone, address, photo } = updateData;
+    
+    // Check role from some source (we can check all tables or pass role)
+    // For now, let's try to update in whichever table the user exists
+    
+    let updatedUser;
+    
+    // Try User table
+    try {
+      updatedUser = await prisma.user.update({
+        where: { id: userId },
+        data: { name, phone, address, photo }
+      });
+    } catch (e) {
+      // Try Owner table
+      try {
+        updatedUser = await prisma.owner.update({
+          where: { id: userId },
+          data: { name, phone, address, photo }
+        });
+      } catch (e2) {
+        // Try Karyawan table
+        updatedUser = await prisma.karyawan.update({
+          where: { id: userId },
+          data: { name, phone, photo } // Karyawan doesn't have 'address' in schema
+        });
+      }
+    }
+
+    const { password, ...userWithoutPassword } = updatedUser;
+    return userWithoutPassword;
   }
 }
 

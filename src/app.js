@@ -8,18 +8,21 @@ import authRoutes from './routes/authRoutes.js';
 import { loggerMiddleware } from './middlewares/logger.js';
 import { authMiddleware } from './middlewares/authMiddleware.js';
 
-
-dotenv.config();
-
 const app = express();
 
 // --- Connection Bridge (CORS) ---
 // Ini adalah penghubung utama. Kita mengizinkan frontend (biasanya port 5173 untuk Vite)
 // untuk mengakses API backend ini.
 app.use(cors({
-  origin: '*', // Di production, ganti dengan URL frontend Anda
+  origin: [
+    'http://localhost:5173', 
+    'http://localhost:3000', 
+    'http://127.0.0.1:5173', 
+    'http://127.0.0.1:3000'
+  ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
 
 app.use(morgan('dev'));

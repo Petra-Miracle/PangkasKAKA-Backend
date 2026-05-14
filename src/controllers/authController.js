@@ -24,6 +24,19 @@ class AuthController {
     // req.user comes from authMiddleware
     res.json({ user: req.user });
   }
+
+  async updateProfile(req, res) {
+    try {
+      const userId = req.user.id;
+      const updatedUser = await authService.updateProfile(userId, req.body);
+      res.json({ 
+        message: 'Profile updated successfully',
+        user: updatedUser 
+      });
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  }
 }
 
 export default new AuthController();

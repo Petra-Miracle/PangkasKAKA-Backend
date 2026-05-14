@@ -62,18 +62,13 @@ PangkasDB/
 - `POST /api/auth/register` - User registration
 - `POST /api/auth/login` - User login
 
-### Barbers
-- `GET /api/barbers` - Get all barbers
-- `GET /api/barbers/:id` - Get barber details
-- `POST /api/barbers` - Create barber
-- `PUT /api/barbers/:id` - Update barber
-- `DELETE /api/barbers/:id` - Delete barber
+### Barbershops
+- `GET /api/barbershops` - Get all barbershops (with optional lat/lng for proximity)
 
 ### Orders
-- `GET /api/orders` - Get user orders
-- `POST /api/orders` - Create new order
-- `PUT /api/orders/:id` - Update order
-- `DELETE /api/orders/:id` - Cancel order
+- `GET /api/orders/:id` - Get order details (protected)
+- `POST /api/orders` - Create new order (protected)
+- `POST /api/orders/:id/pay` - Pay for order (simulation)
 
 ---
 
@@ -254,6 +249,17 @@ For database-related issues, refer to:
 - 📖 [DATABASE_SETUP.md](./DATABASE_SETUP.md)
 - 🔗 [Prisma Docs](https://www.prisma.io/docs/)
 - 🔗 [PostgreSQL Docs](https://www.postgresql.org/docs/)
+
+---
+
+## 📄 License
+
+Private Project - PangkasKAKA
+
+---
+
+**Last Updated:** April 2026
+gresql.org/docs/)
 
 ---
 

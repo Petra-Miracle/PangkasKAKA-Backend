@@ -1,0 +1,35 @@
+# Normalisasi line endings - penting untuk Windows compatibility
+* text=auto eol=lf
+
+# Database & environment files - jangan pernah diubah line-endingnya
+.env text eol=lf
+.env.* text eol=lf
+*.sql text eol=lf
+*.prisma text eol=lf
+
+# Source code
+*.js text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.sh text eol=lf
+*.bat text eol=crlf
+
+# Binary files - jangan dideteksi sebagai text
+*.db binary
+*.sqlite binary
+*.db-journal binary
+*.dump binary
+*.bak binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.zip binary
+*.rar binary
+*.7z binary
+
+# Diff settings untuk Prisma schema
+*.prisma diff=prisma

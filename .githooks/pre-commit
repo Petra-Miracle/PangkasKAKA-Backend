@@ -1,0 +1,96 @@
+#!/bin/sh
+#
+# PRE-COMMIT HOOK — Database Safety Check
+# =========================================
+# Hook ini berjalan OTOMATIS setiap kali kamu commit.
+# Tugasnya: MENCEGAH file database & credentials
+# tidak sengaja ke-commit.
+#
+# Cara install:
+#   git config core.hooksPath .githooks
+# (atau tinggal jalanin: npm run postinstall)
+#
+
+echo ""
+echo "🔍 [Database Safety Check] Memeriksa file yang akan di-commit..."
+echo ""
+
+# Ambil daftar file yang akan di-commit
+STAGED_FILES=$(git diff --cached --name-only)
+
+# Flag pelanggaran
+BLOCKED=0
+
+# ============================================
+# CEK 1: File .env (credentials database)
+# ============================================
+if echo "$STAGED_FILES" | grep -E "^\.env$" | grep -qv ".env.example"; then
+    echo "⛔ BLOCKED: File .env TERDETEKSI akan di-commit!"
+    echo "   File .env mengandung credentials database (DATABASE_URL, JWT_SECRET, dll)."
+    echo "   HAPUS dari staging: git reset HEAD .env"
+    BLOCKED=1
+fi
+
+if echo "$STAGED_FILES" | grep -E "\.env\." | grep -qv ".env.example"; then
+    echo "⛔ BLOCKED: File .env* terdeteksi akan di-commit!"
+    echo "   Hapus dari staging: git reset HEAD .env*"
+    BLOCKED=1
+fi
+
+# ============================================
+# CEK 2: Database dump files
+# ============================================
+if echo "$STAGED_FILES" | grep -qE "\.(sql|dump|dmp|bak|backup|pgdump)$"; then
+    echo "⛔ BLOCKED: File database dump/backup terdeteksi!"
+    echo "   File .sql / .dump / .backup tidak boleh di-commit (mengandung data sensitif)."
+    BLOCKED=1
+fi
+
+# ============================================
+# CEK 3: Database binary files
+# ============================================
+if echo "$STAGED_FILES" | grep -qE "\.(db|sqlite|sqlite3|db-journal|db3)$"; then
+    echo "⛔ BLOCKED: File database binary terdeteksi!"
+    echo "   File .db / .sqlite tidak boleh di-commit."
+    BLOCKED=1
+fi
+
+# ============================================
+# CEK 4: Backup directories
+# ============================================
+if echo "$STAGED_FILES" | grep -qE "^(backups|backup|db_backup|pg_backup)/"; then
+    echo "⛔ BLOCKED: File dari direktori backup terdeteksi!"
+    BLOCKED=1
+fi
+
+# ============================================
+# CEK 5: Credential/key files
+# ============================================
+if echo "$STAGED_FILES" | grep -qE "\.(key|pem|cert)$"; then
+    echo "⛔ BLOCKED: File credentials/keys terdeteksi!"
+    BLOCKED=1
+fi
+
+if echo "$STAGED_FILES" | grep -qiE "(credentials|secrets)\."; then
+    echo "⛔ BLOCKED: File mengandung credentials/secrets!"
+    BLOCKED=1
+fi
+
+# ============================================
+# KESIMPULAN
+# ============================================
+echo ""
+if [ "$BLOCKED" -eq 1 ]; then
+    echo "❌ COMMIT DIBATALKAN — File database/credentials terdeteksi."
+    echo "   Gunakan: git reset HEAD <nama-file>"
+    echo "   untuk menghapus file tersebut dari staging."
+    echo ""
+    echo "   PASTIKAN file-file di atas SUDAH ada di .gitignore."
+    echo "   Kalau belum, tambahkan manual ke .gitignore."
+    echo ""
+    exit 1
+else
+    echo "✅ Database Safety Check: OK — Tidak ada file berbahaya."
+    echo ""
+    exit 0
+fi

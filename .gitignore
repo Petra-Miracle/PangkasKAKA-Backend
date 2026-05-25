@@ -1,7 +1,59 @@
-# Environment variables
+# ============================================
+# DATABASE PROTECTION - JANGAN DIHAPUS!
+# Bagian ini critical untuk keamanan database.
+# ============================================
+
+# Environment variables (mengandung credentials database)
 .env
 .env.local
 .env.*.local
+.env.*
+!.env.example
+
+# Database files - semua format database file
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+*.sqlitedb
+*.db3
+*.dbf
+*.mdb
+*.accdb
+
+# Database dump / backup files (sering mengandung data sensitif)
+*.sql
+*.dump
+*.dmp
+*.bak
+*.backup
+*.pgdump
+*.pg_backup
+
+# Backup directories
+backups/
+backup/
+db_backup/
+database_backup/
+pg_backup/
+db_dumps/
+pg_dump/
+
+# Dataset - file data mentah (CSV, Excel, SQL)
+Dataset/*.sql
+Dataset/*.csv
+Dataset/*.xlsx
+Dataset/*.xls
+Dataset/*.zip
+Dataset/*.rar
+Dataset/*.7z
+Dataset/Data Barber Kupang/
+
+# Prisma local development database
+prisma/dev.db
+prisma/dev.db-journal
+prisma/*.db
+prisma/*.sqlite
 
 # Dependencies
 node_modules/
@@ -12,10 +64,8 @@ pnpm-lock.yaml
 # IDE
 .vscode/
 .idea/
-*.swp
 *.swo
 *~
-.DS_Store
 
 # Logs
 logs/
@@ -34,10 +84,6 @@ pids/
 coverage/
 .nyc_output/
 
-# Prisma
-prisma/dev.db
-prisma/dev.db-journal
-
 # Build outputs
 dist/
 build/
@@ -49,3 +95,12 @@ Thumbs.db
 # Temporary files
 *.tmp
 .cache/
+*.temp
+*.swp
+
+# Secret / credential files (apapun)
+*.key
+*.pem
+*.cert
+credentials*
+secret*

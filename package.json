@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "githooks": "git config core.hooksPath .githooks",
+    "postinstall": "git config core.hooksPath .githooks"
   },
   "dependencies": {
     "cors": "^2.8.5",

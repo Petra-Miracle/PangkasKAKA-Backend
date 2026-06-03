@@ -92,11 +92,9 @@ build/
 .DS_Store
 Thumbs.db
 
-# Temporary files
-*.tmp
+# Temporary / debug files
+tmp_*
 .cache/
-*.temp
-*.swp
 
 # Secret / credential files (apapun)
 *.key

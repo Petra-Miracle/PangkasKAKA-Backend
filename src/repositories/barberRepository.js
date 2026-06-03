@@ -20,7 +20,9 @@ class BarberRepository {
   
   // Custom method for barbershops (as they were used in the proximity logic)
   async getAllBarbershops() {
-    return await prisma.barbershop.findMany();
+    return await prisma.barbershop.findMany({
+      include: { services: true }
+    });
   }
 }
 

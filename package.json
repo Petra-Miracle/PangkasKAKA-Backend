@@ -9,7 +9,7 @@
     "dev": "nodemon src/index.js",
     "build": "npx prisma generate --schema=PangkasDB/prisma/schema.prisma",
     "githooks": "git config core.hooksPath .githooks",
-    "postinstall": "git config core.hooksPath .githooks",
+    "postinstall": "node -e \"try{require('child_process').execSync('git config core.hooksPath .githooks',{stdio:'ignore'})}catch(e){}\"",
     "vercel-build": "npx prisma generate --schema=PangkasDB/prisma/schema.prisma"
   },
   "dependencies": {

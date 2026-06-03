@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "npm run build",
+  "buildCommand": "prisma generate --schema=PangkasDB/prisma/schema.prisma",
   "installCommand": "npm install --include=dev prisma @prisma/config",
   "functions": {
     "api/index.js": {

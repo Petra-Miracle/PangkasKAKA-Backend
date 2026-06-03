@@ -9,7 +9,8 @@
     "dev": "nodemon src/index.js",
     "build": "node scripts/build.cjs",
     "githooks": "git config core.hooksPath .githooks",
-    "postinstall": "node scripts/build.cjs"
+    "postinstall": "node -e \"try{require('child_process').execSync('git config core.hooksPath .githooks',{stdio:'ignore'})}catch(e){}\"",
+    "vercel-build": "node scripts/build.cjs"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -20,11 +21,11 @@
     "@prisma/adapter-pg": "^7.7.0",
     "pg": "^8.11.5",
     "jsonwebtoken": "^9.0.2",
-    "bcryptjs": "^2.4.3"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.1",
+    "bcryptjs": "^2.4.3",
     "prisma": "^7.7.0",
     "@prisma/config": "^7.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   }
 }

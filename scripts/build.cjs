@@ -27,10 +27,16 @@ if (!existsSync(schema)) {
 try {
   execSync(
     'node ' + prismaCli + ' generate --schema=' + schema,
-    { stdio: 'inherit', cwd }
+    { stdio: ['pipe', 'inherit', 'inherit'], cwd }
   );
   console.log('[build] OK');
 } catch (err) {
+  if (err.stderr) {
+    console.error('[build] STDERR:', err.stderr.toString());
+  }
+  if (err.stdout) {
+    console.log('[build] STDOUT:', err.stdout.toString());
+  }
   console.error('[build] ERROR:', err.message);
   process.exit(1);
 }

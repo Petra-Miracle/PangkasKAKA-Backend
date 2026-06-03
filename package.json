@@ -7,10 +7,9 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "build": "npx prisma generate --schema=PangkasDB/prisma/schema.prisma",
+    "build": "node scripts/build.cjs",
     "githooks": "git config core.hooksPath .githooks",
-    "postinstall": "node -e \"try{require('child_process').execSync('git config core.hooksPath .githooks',{stdio:'ignore'})}catch(e){}\"",
-    "vercel-build": "node scripts/build.mjs"
+    "postinstall": "node scripts/build.cjs"
   },
   "dependencies": {
     "cors": "^2.8.5",

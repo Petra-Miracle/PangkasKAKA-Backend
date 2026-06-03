@@ -25,18 +25,18 @@ if (!existsSync(schema)) {
 }
 
 try {
-  execSync(
+  const out = execSync(
     'node ' + prismaCli + ' generate --schema=' + schema,
-    { stdio: ['pipe', 'inherit', 'inherit'], cwd }
+    { cwd, encoding: 'utf8', maxBuffer: 50 * 1024 * 1024 }
   );
   console.log('[build] OK');
+  console.log(out);
 } catch (err) {
-  if (err.stderr) {
-    console.error('[build] STDERR:', err.stderr.toString());
-  }
-  if (err.stdout) {
-    console.log('[build] STDOUT:', err.stdout.toString());
-  }
-  console.error('[build] ERROR:', err.message);
+  console.error('[build] ====== PRISMA STDERR ======');
+  console.error(err.stderr || '(no stderr)');
+  console.error('[build] ====== PRISMA STDOUT ======');
+  console.error(err.stdout || '(no stdout)');
+  console.error('[build] ====== ERROR MESSAGE ======');
+  console.error(err.message);
   process.exit(1);
 }

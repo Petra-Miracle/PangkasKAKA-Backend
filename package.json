@@ -7,8 +7,10 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
+    "build": "npx prisma generate --schema=PangkasDB/prisma/schema.prisma",
     "githooks": "git config core.hooksPath .githooks",
-    "postinstall": "git config core.hooksPath .githooks"
+    "postinstall": "git config core.hooksPath .githooks",
+    "vercel-build": "npx prisma generate --schema=PangkasDB/prisma/schema.prisma"
   },
   "dependencies": {
     "cors": "^2.8.5",

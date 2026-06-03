@@ -4,13 +4,15 @@
   "description": "API Backend for PangkasKAKA Barbershop Online",
   "main": "src/index.js",
   "type": "module",
+  "prisma": {
+    "schema": "PangkasDB/prisma/schema.prisma"
+  },
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "build": "node scripts/build.cjs",
     "githooks": "git config core.hooksPath .githooks",
-    "postinstall": "node -e \"try{require('child_process').execSync('git config core.hooksPath .githooks',{stdio:'ignore'})}catch(e){}\"",
-    "vercel-build": "node scripts/build.cjs"
+    "postinstall": "node -e \"try{require('child_process').execSync('git config core.hooksPath .githooks',{stdio:'ignore'})}catch(e){}\""
   },
   "dependencies": {
     "cors": "^2.8.5",

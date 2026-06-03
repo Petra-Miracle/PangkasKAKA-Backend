@@ -1,9 +1,8 @@
 import 'dotenv/config';
-import { defineConfig, env } from '@prisma/config';
 
-export default defineConfig({
+const url = process.env.DATABASE_URL;
+
+export default {
   schema: 'PangkasDB/prisma/schema.prisma',
-  datasource: {
-    url: env('DATABASE_URL'),
-  },
-});
+  ...(url ? { datasource: { url } } : {}),
+};

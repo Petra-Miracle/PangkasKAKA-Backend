@@ -27,9 +27,8 @@ if (!existsSync(schema)) {
 }
 
 try {
-  // Use prisma command directly (npx) instead of node path for better cross-platform compatibility
   const out = execSync(
-    'npx prisma generate --schema=' + schema,
+    'node ' + prismaCli + ' generate --schema=' + schema,
     { cwd, encoding: 'utf8', maxBuffer: 50 * 1024 * 1024, stdio: ['pipe', 'pipe', 'pipe'] }
   );
   console.log('[build] ✓ Prisma Client generated successfully');

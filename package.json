@@ -10,7 +10,7 @@
     "build": "npx prisma generate --schema=PangkasDB/prisma/schema.prisma",
     "githooks": "git config core.hooksPath .githooks",
     "postinstall": "node -e \"try{require('child_process').execSync('git config core.hooksPath .githooks',{stdio:'ignore'})}catch(e){}\"",
-    "vercel-build": "node node_modules/prisma/build/index.js generate --schema=PangkasDB/prisma/schema.prisma"
+    "vercel-build": "node scripts/build.mjs"
   },
   "dependencies": {
     "cors": "^2.8.5",

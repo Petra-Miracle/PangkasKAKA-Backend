@@ -1,7 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "prisma generate --schema=PangkasDB/prisma/schema.prisma",
-  "installCommand": "npm install --include=dev prisma @prisma/config",
+  "installCommand": "npm install --include=dev",
   "functions": {
     "api/index.js": {
       "memory": 256,

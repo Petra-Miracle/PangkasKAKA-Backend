@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "build": "node scripts/build.cjs",
+    "db:generate": "node scripts/build.cjs",
     "githooks": "git config core.hooksPath .githooks",
     "postinstall": "node -e \"try{require('child_process').execSync('git config core.hooksPath .githooks',{stdio:'ignore'})}catch(e){}\""
   },

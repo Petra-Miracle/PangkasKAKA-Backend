@@ -1,6 +1,6 @@
 generator client {
-  provider        = "prisma-client-js"
-  binaryTargets   = ["native", "rhel-openssl-3.0.x", "debian-openssl-3.0.x"]
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -8,24 +8,24 @@ datasource db {
 }
 
 model User {
-  id                        Int            @id @default(autoincrement())
-  name                      String         @db.VarChar(255)
-  phone                     String         @unique @db.VarChar(20)
-  email                     String         @unique @db.VarChar(255)
-  password                  String         @db.VarChar(255)
-  address                   String?        @db.Text
-  role                      UserRole?      @default(customer)
-  photo                     String?        @db.VarChar(255)
-  createdAt                 DateTime       @default(now()) @map("created_at")
-  emailVerifiedAt           DateTime?      @map("email_verified_at")
-  emailVerificationHash     String?        @db.Char(64) @map("email_verification_hash")
-  emailVerificationExpiresAt DateTime?     @map("email_verification_expires_at")
-  emailVerificationSentTo   String?        @db.VarChar(255) @map("email_verification_sent_to")
-  
-  bookings                  Booking[]
-  notifications             Notification[]
-  reviews                   Review[]
-  subscriptions             Subscription[]
+  id                         Int       @id @default(autoincrement())
+  name                       String    @db.VarChar(255)
+  phone                      String    @unique @db.VarChar(20)
+  email                      String    @unique @db.VarChar(255)
+  password                   String    @db.VarChar(255)
+  address                    String?   @db.Text
+  role                       UserRole? @default(customer)
+  photo                      String?   @db.VarChar(255)
+  createdAt                  DateTime  @default(now()) @map("created_at")
+  emailVerifiedAt            DateTime? @map("email_verified_at")
+  emailVerificationHash      String?   @map("email_verification_hash") @db.Char(64)
+  emailVerificationExpiresAt DateTime? @map("email_verification_expires_at")
+  emailVerificationSentTo    String?   @map("email_verification_sent_to") @db.VarChar(255)
+
+  bookings      Booking[]
+  notifications Notification[]
+  reviews       Review[]
+  subscriptions Subscription[]
 
   @@map("users")
 }
@@ -37,63 +37,63 @@ enum UserRole {
 }
 
 model Owner {
-  id                        Int            @id @default(autoincrement())
-  name                      String         @db.VarChar(255)
-  phone                     String         @unique @db.VarChar(20)
-  email                     String         @unique @db.VarChar(255)
-  password                  String         @db.VarChar(255)
-  address                   String?        @db.Text
-  photo                     String?        @db.VarChar(255)
-  createdAt                 DateTime       @default(now()) @map("created_at")
-  emailVerifiedAt           DateTime?      @map("email_verified_at")
-  emailVerificationHash     String?        @db.Char(64) @map("email_verification_hash")
-  emailVerificationExpiresAt DateTime?     @map("email_verification_expires_at")
-  emailVerificationSentTo   String?        @db.VarChar(255) @map("email_verification_sent_to")
-  
-  barbershops               Barbershop[]
-  criteriaChecklist         OwnerCriteriaChecklist[]
+  id                         Int       @id @default(autoincrement())
+  name                       String    @db.VarChar(255)
+  phone                      String    @unique @db.VarChar(20)
+  email                      String    @unique @db.VarChar(255)
+  password                   String    @db.VarChar(255)
+  address                    String?   @db.Text
+  photo                      String?   @db.VarChar(255)
+  createdAt                  DateTime  @default(now()) @map("created_at")
+  emailVerifiedAt            DateTime? @map("email_verified_at")
+  emailVerificationHash      String?   @map("email_verification_hash") @db.Char(64)
+  emailVerificationExpiresAt DateTime? @map("email_verification_expires_at")
+  emailVerificationSentTo    String?   @map("email_verification_sent_to") @db.VarChar(255)
+
+  barbershops       Barbershop[]
+  criteriaChecklist OwnerCriteriaChecklist[]
 
   @@map("owners")
 }
 
 model Barbershop {
-  id                 Int              @id @default(autoincrement())
-  ownerId            Int?             @map("owner_id")
-  name               String           @db.VarChar(255)
-  category           String?          @db.VarChar(100)
-  rating             Decimal?         @default(0.0) @db.Decimal(3, 1)
-  reviewsCount       Int?             @default(0) @map("reviews_count")
-  address            String           @db.Text
-  operationalStatus  String?          @db.VarChar(255) @map("operational_status")
-  locationLink       String?          @db.VarChar(500) @map("location_link")
-  description        String?          @db.Text
-  latitude           Decimal?         @db.Decimal(10, 8)
-  longitude          Decimal?         @db.Decimal(11, 8)
-  image              String?          @db.VarChar(255)
-  priceRange         String?          @db.VarChar(50) @map("price_range")
-  isVerified         Boolean?         @default(false) @map("is_verified")
-  createdAt          DateTime         @default(now()) @map("created_at")
-  bankName           String?          @db.VarChar(100) @map("bank_name")
-  accountNumber      String?          @db.VarChar(50) @map("account_number")
-  accountHolder      String?          @db.VarChar(255) @map("account_holder")
-  docKtp             String?          @db.VarChar(255) @map("doc_ktp")
-  docNib             String?          @db.VarChar(255) @map("doc_nib")
-  docNpwp            String?          @db.VarChar(255) @map("doc_npwp")
-  docSuratUsaha      String?          @db.VarChar(255) @map("doc_surat_usaha")
+  id                 Int                 @id @default(autoincrement())
+  ownerId            Int?                @map("owner_id")
+  name               String              @db.VarChar(255)
+  category           String?             @db.VarChar(100)
+  rating             Decimal?            @default(0.0) @db.Decimal(3, 1)
+  reviewsCount       Int?                @default(0) @map("reviews_count")
+  address            String              @db.Text
+  operationalStatus  String?             @map("operational_status") @db.VarChar(255)
+  locationLink       String?             @map("location_link") @db.VarChar(500)
+  description        String?             @db.Text
+  latitude           Decimal?            @db.Decimal(10, 8)
+  longitude          Decimal?            @db.Decimal(11, 8)
+  image              String?             @db.VarChar(255)
+  priceRange         String?             @map("price_range") @db.VarChar(50)
+  isVerified         Boolean?            @default(false) @map("is_verified")
+  createdAt          DateTime            @default(now()) @map("created_at")
+  bankName           String?             @map("bank_name") @db.VarChar(100)
+  accountNumber      String?             @map("account_number") @db.VarChar(50)
+  accountHolder      String?             @map("account_holder") @db.VarChar(255)
+  docKtp             String?             @map("doc_ktp") @db.VarChar(255)
+  docNib             String?             @map("doc_nib") @db.VarChar(255)
+  docNpwp            String?             @map("doc_npwp") @db.VarChar(255)
+  docSuratUsaha      String?             @map("doc_surat_usaha") @db.VarChar(255)
   verificationStatus VerificationStatus? @default(pending) @map("verification_status")
-  verificationNote   String?          @db.Text @map("verification_note")
-  docsSubmittedAt    DateTime?        @map("docs_submitted_at")
-  verifiedAt         DateTime?        @map("verified_at")
+  verificationNote   String?             @map("verification_note") @db.Text
+  docsSubmittedAt    DateTime?           @map("docs_submitted_at")
+  verifiedAt         DateTime?           @map("verified_at")
 
-  owner              Owner?           @relation(fields: [ownerId], references: [id])
-  barbers            Barber[]
-  bookings           Booking[]
-  karyawan           Karyawan[]
-  promotions         Promotion[]
-  reviews            Review[]
-  services           Service[]
-  schedules          ShopSchedule[]
-  subscriptions      Subscription[]
+  owner         Owner?         @relation(fields: [ownerId], references: [id])
+  barbers       Barber[]
+  bookings      Booking[]
+  karyawan      Karyawan[]
+  promotions    Promotion[]
+  reviews       Review[]
+  services      Service[]
+  schedules     ShopSchedule[]
+  subscriptions Subscription[]
 
   @@map("barbershops")
 }
@@ -105,21 +105,21 @@ enum VerificationStatus {
 }
 
 model Barber {
-  id             Int          @id @default(autoincrement())
-  shopId         Int?         @map("shop_id")
-  karyawanId     Int?         @map("karyawan_id")
-  name           String       @db.VarChar(100)
-  photo          String?      @db.VarChar(255)
-  specialization String?      @db.VarChar(100)
-  skillLevel     SkillLevel?  @default(Junior) @map("skill_level")
-  rating         Decimal?     @default(5.0) @db.Decimal(3, 1)
-  image          String?      @db.VarChar(255)
-  status         Status?      @default(active)
-  createdAt      DateTime     @default(now()) @map("created_at")
+  id             Int         @id @default(autoincrement())
+  shopId         Int?        @map("shop_id")
+  karyawanId     Int?        @map("karyawan_id")
+  name           String      @db.VarChar(100)
+  photo          String?     @db.VarChar(255)
+  specialization String?     @db.VarChar(100)
+  skillLevel     SkillLevel? @default(Junior) @map("skill_level")
+  rating         Decimal?    @default(5.0) @db.Decimal(3, 1)
+  image          String?     @db.VarChar(255)
+  status         Status?     @default(active)
+  createdAt      DateTime    @default(now()) @map("created_at")
 
-  barbershop     Barbershop?  @relation(fields: [shopId], references: [id])
-  karyawan       Karyawan?    @relation(fields: [karyawanId], references: [id])
-  bookings       Booking[]
+  barbershop Barbershop? @relation(fields: [shopId], references: [id])
+  karyawan   Karyawan?   @relation(fields: [karyawanId], references: [id])
+  bookings   Booking[]
 
   @@map("barbers")
 }
@@ -136,32 +136,32 @@ enum Status {
 }
 
 model Karyawan {
-  id               Int          @id @default(autoincrement())
-  name             String       @db.VarChar(255)
-  email            String       @unique @db.VarChar(255)
-  password         String       @db.VarChar(255)
-  phone            String?      @db.VarChar(20)
-  photo            String?      @db.VarChar(255)
-  shopId           Int?         @map("shop_id")
-  portfolioUrl     String?      @db.Text @map("portfolio_url")
-  workExperience   String?      @db.Text @map("work_experience")
-  toolsPhoto       String?      @db.VarChar(255) @map("tools_photo")
-  bnspCert         String?      @db.VarChar(255) @map("bnsp_cert")
-  certificates     String?      @db.Text
-  diplomaPhoto     String?      @db.VarChar(255) @map("diploma_photo")
-  portfolioWeight  Int?         @default(0) @map("portfolio_weight")
-  experienceWeight Int?         @default(0) @map("experience_weight")
-  toolsWeight      Int?         @default(0) @map("tools_weight")
-  bnspWeight       Int?         @default(0) @map("bnsp_weight")
-  certWeight       Int?         @default(0) @map("cert_weight")
-  diplomaWeight    Int?         @default(0) @map("diploma_weight")
-  totalScore       Int?         @default(0) @map("total_score")
+  id               Int             @id @default(autoincrement())
+  name             String          @db.VarChar(255)
+  email            String          @unique @db.VarChar(255)
+  password         String          @db.VarChar(255)
+  phone            String?         @db.VarChar(20)
+  photo            String?         @db.VarChar(255)
+  shopId           Int?            @map("shop_id")
+  portfolioUrl     String?         @map("portfolio_url") @db.Text
+  workExperience   String?         @map("work_experience") @db.Text
+  toolsPhoto       String?         @map("tools_photo") @db.VarChar(255)
+  bnspCert         String?         @map("bnsp_cert") @db.VarChar(255)
+  certificates     String?         @db.Text
+  diplomaPhoto     String?         @map("diploma_photo") @db.VarChar(255)
+  portfolioWeight  Int?            @default(0) @map("portfolio_weight")
+  experienceWeight Int?            @default(0) @map("experience_weight")
+  toolsWeight      Int?            @default(0) @map("tools_weight")
+  bnspWeight       Int?            @default(0) @map("bnsp_weight")
+  certWeight       Int?            @default(0) @map("cert_weight")
+  diplomaWeight    Int?            @default(0) @map("diploma_weight")
+  totalScore       Int?            @default(0) @map("total_score")
   status           KaryawanStatus? @default(pending)
-  createdAt        DateTime     @default(now()) @map("created_at")
-  emailVerifiedAt  DateTime?    @map("email_verified_at")
+  createdAt        DateTime        @default(now()) @map("created_at")
+  emailVerifiedAt  DateTime?       @map("email_verified_at")
 
-  barbershop       Barbershop?  @relation(fields: [shopId], references: [id])
-  barbers          Barber[]
+  barbershop Barbershop? @relation(fields: [shopId], references: [id])
+  barbers    Barber[]
 
   @@map("karyawan")
 }
@@ -178,29 +178,29 @@ model Booking {
   shopId           Int?              @map("shop_id")
   barberId         Int?              @map("barber_id")
   serviceId        Int?              @map("service_id")
-  bookingDate      DateTime          @db.Date @map("booking_date")
-  bookingTime      DateTime          @db.Time @map("booking_time")
+  bookingDate      DateTime          @map("booking_date") @db.Date
+  bookingTime      DateTime          @map("booking_time") @db.Time
   status           BookingStatus?    @default(pending)
   paymentStatus    PaymentStatus?    @default(unpaid) @map("payment_status")
-  totalPrice       Decimal?          @db.Decimal(10, 2) @map("total_price")
-  qrisCode         String?           @db.VarChar(255) @map("qris_code")
+  totalPrice       Decimal?          @map("total_price") @db.Decimal(10, 2)
+  qrisCode         String?           @map("qris_code") @db.VarChar(255)
   createdAt        DateTime          @default(now()) @map("created_at")
-  paymentProof     String?           @db.VarChar(255) @map("payment_proof")
-  rescheduleDate   DateTime?         @db.Date @map("reschedule_date")
-  rescheduleTime   DateTime?         @db.Time @map("reschedule_time")
+  paymentProof     String?           @map("payment_proof") @db.VarChar(255)
+  rescheduleDate   DateTime?         @map("reschedule_date") @db.Date
+  rescheduleTime   DateTime?         @map("reschedule_time") @db.Time
   rescheduleStatus RescheduleStatus? @map("reschedule_status")
-  customerLat      Decimal?          @db.Decimal(10, 8) @map("customer_lat")
-  customerLng      Decimal?          @db.Decimal(11, 8) @map("customer_lng")
+  customerLat      Decimal?          @map("customer_lat") @db.Decimal(10, 8)
+  customerLng      Decimal?          @map("customer_lng") @db.Decimal(11, 8)
   arrivalStatus    ArrivalStatus?    @default(unknown) @map("arrival_status")
   paymentMethod    PaymentMethod?    @default(qris) @map("payment_method")
 
-  user             User?             @relation(fields: [userId], references: [id])
-  barbershop       Barbershop?       @relation(fields: [shopId], references: [id])
-  barber           Barber?           @relation(fields: [barberId], references: [id])
-  service          Service?          @relation(fields: [serviceId], references: [id])
-  messages         Message[]
-  payments         Payment[]
-  reviews          Review[]
+  user       User?       @relation(fields: [userId], references: [id])
+  barbershop Barbershop? @relation(fields: [shopId], references: [id])
+  barber     Barber?     @relation(fields: [barberId], references: [id])
+  service    Service?    @relation(fields: [serviceId], references: [id])
+  messages   Message[]
+  payments   Payment[]
+  reviews    Review[]
 
   @@map("bookings")
 }
@@ -245,7 +245,7 @@ model Message {
   isRead     Boolean?   @default(false) @map("is_read")
   createdAt  DateTime   @default(now()) @map("created_at")
 
-  booking    Booking    @relation(fields: [bookingId], references: [id])
+  booking Booking @relation(fields: [bookingId], references: [id])
 
   @@map("messages")
 }
@@ -255,28 +255,27 @@ enum SenderType {
   owner
 }
 
-
 model OwnerCriteria {
-  id          Int      @id @default(autoincrement())
-  title       String   @db.VarChar(150)
-  description String?  @db.Text
-  isMandatory Boolean  @default(true) @map("is_mandatory")
-  sortOrder   Int?     @default(0) @map("sort_order")
-  
-  checklist   OwnerCriteriaChecklist[]
+  id          Int     @id @default(autoincrement())
+  title       String  @db.VarChar(150)
+  description String? @db.Text
+  isMandatory Boolean @default(true) @map("is_mandatory")
+  sortOrder   Int?    @default(0) @map("sort_order")
+
+  checklist OwnerCriteriaChecklist[]
 
   @@map("owner_criteria")
 }
 
 model OwnerCriteriaChecklist {
-  id         Int      @id @default(autoincrement())
-  ownerId    Int      @map("owner_id")
-  criteriaId Int      @map("criteria_id")
-  isChecked  Boolean? @default(false) @map("is_checked")
+  id         Int       @id @default(autoincrement())
+  ownerId    Int       @map("owner_id")
+  criteriaId Int       @map("criteria_id")
+  isChecked  Boolean?  @default(false) @map("is_checked")
   checkedAt  DateTime? @map("checked_at")
 
-  owner      Owner    @relation(fields: [ownerId], references: [id])
-  criteria   OwnerCriteria @relation(fields: [criteriaId], references: [id])
+  owner    Owner         @relation(fields: [ownerId], references: [id])
+  criteria OwnerCriteria @relation(fields: [criteriaId], references: [id])
 
   @@unique([ownerId, criteriaId], name: "unique_checklist")
   @@map("owner_criteria_checklist")
@@ -285,13 +284,13 @@ model OwnerCriteriaChecklist {
 model Payment {
   id            Int           @id @default(autoincrement())
   bookingId     Int?          @map("booking_id")
-  transactionId String?       @unique @db.VarChar(100) @map("transaction_id")
+  transactionId String?       @unique @map("transaction_id") @db.VarChar(100)
   amount        Decimal?      @db.Decimal(10, 2)
   method        String?       @default("QRIS") @db.VarChar(50)
   status        PaymentState? @default(pending)
   paymentDate   DateTime      @default(now()) @map("payment_date")
 
-  booking       Booking?      @relation(fields: [bookingId], references: [id])
+  booking Booking? @relation(fields: [bookingId], references: [id])
 
   @@map("payments")
 }
@@ -303,21 +302,21 @@ enum PaymentState {
 }
 
 model Promotion {
-  id                  Int           @id @default(autoincrement())
-  shopId              Int?          @map("shop_id")
+  id                  Int            @id @default(autoincrement())
+  shopId              Int?           @map("shop_id")
   type                PromotionType? @default(discount)
-  name                String        @db.VarChar(150)
-  description         String?       @db.Text
-  discountPercent     Int?          @default(0) @map("discount_percent")
-  freeServiceId       Int?          @map("free_service_id")
-  minBookingsRequired Int?          @default(1) @map("min_bookings_required")
-  startDate           DateTime?     @db.Date @map("start_date")
-  endDate             DateTime?     @db.Date @map("end_date")
-  isActive            Boolean?      @default(true) @map("is_active")
-  createdByAdmin      Boolean?      @default(false) @map("created_by_admin")
-  createdAt           DateTime      @default(now()) @map("created_at")
+  name                String         @db.VarChar(150)
+  description         String?        @db.Text
+  discountPercent     Int?           @default(0) @map("discount_percent")
+  freeServiceId       Int?           @map("free_service_id")
+  minBookingsRequired Int?           @default(1) @map("min_bookings_required")
+  startDate           DateTime?      @map("start_date") @db.Date
+  endDate             DateTime?      @map("end_date") @db.Date
+  isActive            Boolean?       @default(true) @map("is_active")
+  createdByAdmin      Boolean?       @default(false) @map("created_by_admin")
+  createdAt           DateTime       @default(now()) @map("created_at")
 
-  barbershop          Barbershop?   @relation(fields: [shopId], references: [id])
+  barbershop Barbershop? @relation(fields: [shopId], references: [id])
 
   @@map("promotions")
 }
@@ -330,30 +329,30 @@ enum PromotionType {
 }
 
 model Review {
-  id           Int        @id @default(autoincrement())
-  bookingId    Int?       @map("booking_id")
-  userId       Int?       @map("user_id")
-  shopId       Int?       @map("shop_id")
+  id           Int       @id @default(autoincrement())
+  bookingId    Int?      @map("booking_id")
+  userId       Int?      @map("user_id")
+  shopId       Int?      @map("shop_id")
   rating       Int?
-  comment      String?    @db.Text
-  createdAt    DateTime   @default(now()) @map("created_at")
-  adminReply   String?    @db.Text @map("admin_reply")
-  adminReplyAt DateTime?  @map("admin_reply_at")
+  comment      String?   @db.Text
+  createdAt    DateTime  @default(now()) @map("created_at")
+  adminReply   String?   @map("admin_reply") @db.Text
+  adminReplyAt DateTime? @map("admin_reply_at")
 
-  booking      Booking?   @relation(fields: [bookingId], references: [id])
-  user         User?      @relation(fields: [userId], references: [id])
-  barbershop   Barbershop? @relation(fields: [shopId], references: [id])
+  booking    Booking?    @relation(fields: [bookingId], references: [id])
+  user       User?       @relation(fields: [userId], references: [id])
+  barbershop Barbershop? @relation(fields: [shopId], references: [id])
 
   @@map("reviews")
 }
 
 model Service {
-  id        Int         @id @default(autoincrement())
-  shopId    Int?        @map("shop_id")
-  name      String      @db.VarChar(255)
-  duration  Int?        @default(30)
-  price     Decimal     @db.Decimal(10, 2)
-  createdAt DateTime    @default(now()) @map("created_at")
+  id        Int      @id @default(autoincrement())
+  shopId    Int?     @map("shop_id")
+  name      String   @db.VarChar(255)
+  duration  Int?     @default(30)
+  price     Decimal  @db.Decimal(10, 2)
+  createdAt DateTime @default(now()) @map("created_at")
 
   barbershop Barbershop? @relation(fields: [shopId], references: [id])
   bookings   Booking[]
@@ -362,12 +361,12 @@ model Service {
 }
 
 model ShopSchedule {
-  id        Int      @id @default(autoincrement())
-  shopId    Int?     @map("shop_id")
-  dayName   DayName? @map("day_name")
-  openTime  DateTime? @db.Time @map("open_time")
-  closeTime DateTime? @db.Time @map("close_time")
-  isClosed  Boolean? @default(false) @map("is_closed")
+  id        Int       @id @default(autoincrement())
+  shopId    Int?      @map("shop_id")
+  dayName   DayName?  @map("day_name")
+  openTime  DateTime? @map("open_time") @db.Time
+  closeTime DateTime? @map("close_time") @db.Time
+  isClosed  Boolean?  @default(false) @map("is_closed")
 
   barbershop Barbershop? @relation(fields: [shopId], references: [id])
 
@@ -406,8 +405,8 @@ model Subscription {
   activatedAt     DateTime? @map("activated_at")
   createdAt       DateTime  @default(now()) @map("created_at")
 
-  user            User      @relation(fields: [userId], references: [id])
-  barbershop      Barbershop @relation(fields: [shopId], references: [id])
+  user       User       @relation(fields: [userId], references: [id])
+  barbershop Barbershop @relation(fields: [shopId], references: [id])
 
   @@unique([userId, shopId], name: "unique_sub")
   @@map("subscriptions")
@@ -415,8 +414,8 @@ model Subscription {
 
 model SystemSetting {
   id           Int     @id @default(autoincrement())
-  settingKey   String? @unique @db.VarChar(100) @map("setting_key")
-  settingValue String? @db.Text @map("setting_value")
+  settingKey   String? @unique @map("setting_key") @db.VarChar(100)
+  settingValue String? @map("setting_value") @db.Text
 
   @@map("system_settings")
 }
@@ -430,7 +429,7 @@ model Notification {
   type      NotificationType? @default(info)
   createdAt DateTime          @default(now()) @map("created_at")
 
-  user      User?             @relation(fields: [userId], references: [id])
+  user User? @relation(fields: [userId], references: [id])
 
   @@map("notifications")
 }
